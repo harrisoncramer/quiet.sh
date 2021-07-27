@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
 import express from "express";
-import user from "./routes/user";
-import globalErrorHandler from "./routes/errors";
-import globalDebugRouter from "./routes/debug";
+import user from "./routers/user";
+import globalErrorMiddleware from "./routers/routes/errors";
+import globalDebugMiddleware from "./routers/routes/debug";
 dotenv.config();
 
 export const app = express();
@@ -11,13 +11,13 @@ app.use(express.json());
 //////////////////
 // Debug Routes //
 //////////////////
-if (process.env.NODE_ENV === "development") app.use(globalDebugRouter);
+if (process.env.NODE_ENV === "development") app.use(globalDebugMiddleware);
 
 ////////////
 // Routes //
 ////////////
 app.use("/user", user);
-app.use(globalErrorHandler);
+app.use(globalErrorMiddleware);
 
 ////////////
 // Listen //

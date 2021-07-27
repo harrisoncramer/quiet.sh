@@ -1,9 +1,16 @@
 import db from "../db";
 import { QueryResult } from "pg";
 import { RequestHandler } from "express";
+import axios from "axios";
 
-const signIn: RequestHandler = (req, res, next) => {};
+// Create a sesion from the Github token
+const createSession: RequestHandler = (_req, res, next) => {
+  const { token } = res.locals;
+  console.log("TOKEN IS: ", token);
+  return next();
+};
 
-const signUp: RequestHandler = (req, res, next) => {};
+// Destroy the user's current session
+const destroySession: RequestHandler = (req, res, next) => {};
 
-export default { signIn, signUp };
+export default { createSession, destroySession };
