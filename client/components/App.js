@@ -7,8 +7,6 @@ const App = () => {
       .then((data) => console.log(data));
   };
 
-  const handleLogin = () => {};
-
   return (
     <>
       <button onClick={handleRequestToBackend}>Click Me</button>
