@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
-import App from "./components/App.jsx";
+import Router from "./components/Router";
 
 import styles from "./scss/site.scss";
 
-render(<App />, document.getElementById("root"));
+render(<Router />, document.getElementById("root"));
