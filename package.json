@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "concurrently \"npm run server:start\" \"npm run client:start \"",
+    "build": "npm run client:build && npm run server:build",
     "client:start": "NODE_ENV=development webpack serve --open",
     "client:build": "NODE_ENV=production webpack",
     "server:test": "jest --watchAll --config jest.server.config.ts --detectOpenHandles ",
-    "server:start": "nodemon --watch server/**/*.ts --exec 'ts-node server/index.ts'",
+    "server:start": "NODE_ENV=development nodemon",
     "server:lint": "eslint server/**.js",
     "server:build": "npx tsc"
   },

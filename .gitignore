@@ -1,6 +1,4 @@
 node_modules
 build
+dist
 .env
-
-/* The data is online at  https://github.com/fivethirtyeight/data/tree/master/nba-elo */
-db/nba_history.csv

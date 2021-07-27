@@ -27,7 +27,12 @@ module.exports = {
   devServer: {
     publicPath: '/dist/',
     proxy: {
-      "/api": "http://localhost:3000" // Our Express server
+      '/api/**': {
+        target: 'http://localhost:3000/',
+        pathRewrite: {'^/api': ''},
+        secure: false,
+        logLevel: 'debug'
+      }
     }
   },
 }

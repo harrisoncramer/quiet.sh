@@ -1,11 +1,17 @@
-import express from "express";
 import dotenv from "dotenv";
+import express from "express";
 import user from "./routes/user";
 import globalErrorHandler from "./routes/errors";
+import globalDebugRouter from "./routes/debug";
 dotenv.config();
 
 export const app = express();
 app.use(express.json());
+
+//////////////////
+// Debug Routes //
+//////////////////
+if (process.env.NODE_ENV === "development") app.use(globalDebugRouter);
 
 ////////////
 // Routes //
