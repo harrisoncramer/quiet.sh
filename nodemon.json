@@ -1,10 +1,6 @@
 {
-  "watch": [
-    "server"
-  ],
+  "watch": ["server"],
   "ext": "ts,json",
-  "ignore": [
-    "src/__tests__/**/*.ts"
-  ],
+  "ignore": ["src/__tests__/**/*.ts"],
   "exec": "npx ts-node ./server/index.ts"
 }
