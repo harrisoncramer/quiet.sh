@@ -9,14 +9,23 @@ router.get(
   "/signin/callback",
   github.getToken,
   user.createSession,
+  user.createCookieFromSession,
   github.getAccountInfo,
   (_req, res) => {
-    res.status(200).send(res.locals.accountInfo);
+    // After login is complete and cookie is set, redirect them to the main page
+    // of our React application. Upon hitting the "authenticate" function, they
+    // should now pass and be directed to our private routes.
+    res.status(200).redirect("http://localhost:8080/");
   }
 );
 
-router.post("/logout", user.destroySession, (_req, res, _next) => {
-  res.status(200).send("/");
-});
+router.get(
+  "/logout",
+  user.destroySession,
+  user.expireCookie,
+  (_req, res, _next) => {
+    res.status(200).redirect("/");
+  }
+);
 
 export default router;

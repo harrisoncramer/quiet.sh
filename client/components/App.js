@@ -1,24 +1,30 @@
+import { useHistory } from "react-router-dom";
 import React from "react";
 
 const App = () => {
+  const history = useHistory();
   const handleRequestToBackend = () => {
     fetch("/api/test")
       .then((response) => response.json())
       .then((data) => console.log(data));
   };
 
+  const handleLogOut = () => {
+    fetch("/api/user/logout")
+      .then((response) => {
+        history.push("/");
+      })
+      .catch((error) => {
+        alert("Failure to log out!");
+      });
+  };
+
   return (
-    <>
-      <button onClick={handleRequestToBackend}>Click Me</button>
-      <div className="main">
-        Hello there!
-        <a
-          href={`https://github.com/login/oauth/authorize?client_id=c22f8f7f7ebf39d02794`}
-        >
-          Login
-        </a>
-      </div>
-    </>
+    <div>
+      <p>Welcome to the App</p>
+      <button onClick={handleRequestToBackend}>Get user data</button>
+      <button onClick={handleLogOut}>Log Out</button>
+    </div>
   );
 };
 

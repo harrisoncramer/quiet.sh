@@ -1,4 +1,12 @@
 node_modules
+
+// Secrets
+.env
+
+// Built versions of application
 build
 dist
-.env
+
+
+// My personal todo list for this application
+todo.txt

@@ -1,6 +1,9 @@
 import axios from "axios";
 import { RequestHandler } from "express";
 
+// The main login route. Makes a GET request to Github using the user's
+// provided token, which they just got from Github, and uses the
+// application's CLIENT_ID and CLIENT_SECRET.
 const getToken: RequestHandler = async (req, res, next) => {
   const code = req.query.code;
   if (!code)
@@ -40,6 +43,7 @@ const getToken: RequestHandler = async (req, res, next) => {
   }
 };
 
+// Make a GET request to the Github API to fetch information about the logged-in user.
 const getAccountInfo: RequestHandler = async (_req, res, next) => {
   const { token } = res.locals;
   try {
@@ -57,7 +61,6 @@ const getAccountInfo: RequestHandler = async (_req, res, next) => {
       message: "Failed to get logged-in user details from Github.",
     });
   }
-  // Make a GET request to the Github API to fetch information about the logged-in user.
 };
 
 export default {

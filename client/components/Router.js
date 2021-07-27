@@ -1,13 +1,16 @@
 import React from "react";
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
-import SignIn from "./SignIn";
+import { BrowserRouter, Route } from "react-router-dom";
+import Login from "./Login/Login";
 import App from "./App";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
 
-const Router = (props) => {
+const Router = () => {
   return (
     <BrowserRouter>
-      <Route exact path="/user/signin/callback" component={SignIn} />
-      <Route path="/" component={App} />
+      <Route path="/login" component={Login} />
+      <PrivateRoute path="/">
+        <App />
+      </PrivateRoute>
     </BrowserRouter>
   );
 };
