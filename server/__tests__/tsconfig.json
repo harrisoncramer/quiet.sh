@@ -1,0 +1,4 @@
+{
+  "compileOnSave": false /* Don't build test files */,
+  "extends": "../../tsconfig.json"
+}
