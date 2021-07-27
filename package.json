@@ -1,8 +1,8 @@
 {
-  "name": "tdd",
+  "name": "quiet.sh",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Full stack JS/TS application that alerts Github users if they accidentally commit secrets to their Github repositories.",
+  "main": "index.ts",
   "scripts": {
     "start": "concurrently \"npm run server:start\" \"npm run client:start \"",
     "build": "npm run client:build && npm run server:build",
