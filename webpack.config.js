@@ -27,7 +27,7 @@ module.exports = {
   devServer: {
     publicPath: '/dist/',
     proxy: {
-      "/api": `http://localhost:${process.env.SERVER_PORT}` // Our Express server
+      "/api": "http://localhost:3000" // Our Express server
     }
   },
 }
