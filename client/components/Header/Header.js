@@ -37,8 +37,10 @@ const StyledParagraph = styled.p`
 const StyledHeader = styled.header`
   display: flex;
   align-items: center;
+  padding: 1em;
   justify-content: space-between;
-  margin: 1em;
+  margin-left: 1em;
+  margin-right: 1em;
   gap: 1em;
 `;
 

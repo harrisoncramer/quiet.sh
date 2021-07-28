@@ -5,7 +5,8 @@ import styled from "styled-components";
 
 const Main = () => {
   const [username, setUsername] = useState("");
-  const [cards, setCards] = useState([]);
+  // const [trackingRepos, setTrackingRepos] = useState([]);
+  const [repos, setRepos] = useState([]);
   const [avatar, setAvatar] = useState("");
   const history = useHistory();
 
@@ -14,20 +15,13 @@ const Main = () => {
   useEffect(() => {
     fetch("/api/user/info")
       .then((response) => response.json())
-      .then((data) => {
-        setUsername(data.login);
-        setAvatar(data.avatar_url);
+      .then(({ userInfo, repos }) => {
+        setUsername(userInfo.login);
+        setAvatar(userInfo.avatar_url);
+        setRepos(repos);
       })
       .catch((err) => {
-        console.log("COULD NOT FETCH USER INFO", err);
-      });
-  }, []);
-
-  useEffect(() => {
-    fetch(`/api/cards`)
-      .then((response) => response.json())
-      .then((data) => {
-        setCards(data.cards);
+        console.log("COULD NOT FETCH USER INFO AND REPOS", err);
       });
   }, []);
 
@@ -35,7 +29,10 @@ const Main = () => {
     <div>
       <Header username={username} avatar_url={avatar} history={history} />
       <MainWrapper>
-        {cards.length === 0 && <h3>You are not watching any repositories.</h3>}
+        {repos.length === 0 && <h3>You have no repositories in Github.</h3>}
+        {repos.map((repo) => {
+          return <div key={repo.id}>{repo.name}</div>;
+        })}
       </MainWrapper>
     </div>
   );

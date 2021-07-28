@@ -19,8 +19,11 @@ router.get(
   }
 );
 
-router.get("/info", user.getInfo, (_req, res) => {
-  res.status(200).send(res.locals.userInfo);
+// Sends back user information and a list of their repositories
+router.get("/info", user.getInfo, github.getRepos, (_req, res) => {
+  res
+    .status(200)
+    .send({ userInfo: res.locals.userInfo, repos: res.locals.repos });
 });
 
 router.get("/logout", user.destroyToken, user.expireCookie, (_req, res) => {
