@@ -3,7 +3,7 @@ import { Button } from "../PrimaryButton/PrimaryButton";
 import styled from "styled-components";
 import theme from "../../styles/theme";
 
-const Header = ({ username, avatar_url, history }) => {
+const Header = ({ username, avatar_url, history, isError }) => {
   const handleLogOut = () => {
     fetch("/api/user/logout")
       .then(() => {
@@ -15,10 +15,12 @@ const Header = ({ username, avatar_url, history }) => {
   };
   return (
     <StyledHeader>
-      <div style={{ display: "flex", alignItems: "center", gap: "1em" }}>
-        <img src={avatar_url} style={{ width: "50px" }} />
-        <StyledParagraph>{username}</StyledParagraph>
-      </div>
+      {!isError && (
+        <div style={{ display: "flex", alignItems: "center", gap: "1em" }}>
+          <img src={avatar_url} style={{ width: "50px" }} />
+          <StyledParagraph>{username}</StyledParagraph>
+        </div>
+      )}
       <Button
         onClick={handleLogOut}
         normal={theme.colors.main}

@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import theme from "../styles/theme";
 import { LinkAsButton } from "../components/PrimaryButton/PrimaryButton";
 import Loader from "../components/Loader/Loader";
+import CenterWrapper from "../components/CenterWrapper/CenterWrapper";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLoginAttempt = (e) => {
+  const handleLoginAttempt = () => {
     setIsLoading(true);
   };
 
   return !isLoading ? (
-    <StyledWrapper className="login">
+    <CenterWrapper className="login">
       <h1>Quiet.sh</h1>
       <h4>
         The secure, fast, and open-source repository monitoring tool that lets
@@ -28,29 +28,12 @@ const Login = () => {
           Login with Github
         </LinkAsButton>
       </p>
-    </StyledWrapper>
+    </CenterWrapper>
   ) : (
-    <StyledWrapper>
+    <CenterWrapper>
       <Loader color={theme.colors.main} />
-    </StyledWrapper>
+    </CenterWrapper>
   );
 };
-
-const StyledWrapper = styled.div`
-  display: flex;
-  margin-bottom: 20em;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-
-  h1 {
-    margin-bottom: 0px;
-  }
-
-  h4 {
-    margin-top: 1em;
-  }
-`;
 
 export default Login;

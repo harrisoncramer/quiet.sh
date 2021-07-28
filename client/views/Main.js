@@ -3,11 +3,16 @@ import React, { useEffect, useState } from "react";
 import Header from "../components/Header/Header";
 import styled from "styled-components";
 import Card from "../components/Card/Card";
+import theme from "../styles/theme";
+import Loader from "../components/Loader/Loader";
+import CenterWrapper from "../components/CenterWrapper/CenterWrapper";
 
 const Main = () => {
   const [username, setUsername] = useState("");
   // const [trackingRepos, setTrackingRepos] = useState([]);
   const [repos, setRepos] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [avatar, setAvatar] = useState("");
   const history = useHistory();
 
@@ -17,24 +22,47 @@ const Main = () => {
     fetch("/api/user/info")
       .then((response) => response.json())
       .then(({ userInfo, repos }) => {
+        setIsError(false);
         setUsername(userInfo.login);
         setAvatar(userInfo.avatar_url);
         setRepos(repos);
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log("COULD NOT FETCH USER INFO AND REPOS", err);
+        setIsError(true);
+        setIsLoading(false);
       });
   }, []);
 
-  return (
+  return !isLoading ? (
     <div>
-      <Header username={username} avatar_url={avatar} history={history} />
+      <Header
+        username={username}
+        avatar_url={avatar}
+        history={history}
+        isError={isError}
+      />
       <MainWrapper>
-        {repos.length === 0 && <h3>You have no repositories in Github.</h3>}
+        {repos.length === 0 && !isError && (
+          <h3>You have no repositories in Github.</h3>
+        )}
         {repos.map((repo) => {
           return <Card key={repo.id} repo={repo} />;
         })}
+        {isError && (
+          <h3>
+            Something went wrong. Your Github token may be expired. Please log
+            out and log back in.
+          </h3>
+        )}
       </MainWrapper>
+    </div>
+  ) : (
+    <div>
+      <CenterWrapper>
+        <Loader color={theme.colors.main} />
+      </CenterWrapper>
     </div>
   );
 };

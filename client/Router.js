@@ -7,6 +7,7 @@ import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import global from "./styles/global.scss";
 import normalize from "normalize.css";
 import "@fontsource/lato";
+import "@fontsource/open-sans";
 
 const Router = () => {
   return (

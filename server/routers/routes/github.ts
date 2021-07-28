@@ -70,7 +70,8 @@ const getRepos: RequestHandler = async (req, res, next) => {
     const { userInfo } = res.locals;
     const { ssid } = req.cookies;
     const response = await axios.get(
-      `https://api.github.com/users/${userInfo.login}/repos?sort=updated&per_page=5`,
+      `https://api.github.com/users/${userInfo.login}/repos?sort=updated`,
+      // `https://api.github.com/users/${userInfo.login}/repos?sort=updated&per_page=5`,
       {
         headers: {
           Authorization: `token ${ssid}`,
