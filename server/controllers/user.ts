@@ -1,35 +1,11 @@
 import db from "../db";
-import { QueryResult } from "pg";
 import { RequestHandler } from "express";
-import axios from "axios";
+// import bcrypt from "bcryptjs";
 
-// Create a sesion from the Github token
-const createSession: RequestHandler = (_req, res, next) => {
+const createCookieFromToken: RequestHandler = (_req, res, next) => {
   const { token } = res.locals;
-  // HASH THE TOKEN, AND SAVE A SESSION IN THE DB
-  // THEN, ATTACH THAT HASHED SESSION ID TO OUR LOCALS OBJECT
-  res.locals.hashedSessionId = token; // CHANGE THIS!
-  return next();
-};
 
-// Destroy the user's current session
-const destroySession: RequestHandler = (req, res, next) => {
-  const { hashedSessionId } = res.locals;
-  // DESTROY THE SESSION
-  next();
-};
-
-const expireCookie: RequestHandler = (req, res, next) => {
-  res.cookie("loggedIn", "", { maxAge: 0 });
-  res.cookie("ssid", "", { maxAge: 0 });
-  next();
-};
-
-const createCookieFromSession: RequestHandler = (req, res, next) => {
-  const { hashedSessionId } = res.locals;
-
-  // Make SSID cookie server-side only
-  res.cookie("ssid", hashedSessionId, {
+  res.cookie("ssid", token, {
     expires: new Date(Date.now() + 1200000),
     httpOnly: true,
   });
@@ -55,7 +31,7 @@ const saveUser: RequestHandler = async (_req, res, next) => {
   }
 };
 
-const updateToken: RequestHandler = async (req, res, next) => {
+const updateToken: RequestHandler = async (_req, res, next) => {
   const { accountInfo } = res.locals;
   const { token } = res.locals;
   const { id } = accountInfo;
@@ -69,11 +45,47 @@ const updateToken: RequestHandler = async (req, res, next) => {
   }
 };
 
+const destroyToken: RequestHandler = async (req, res, next) => {
+  const { ssid } = req.cookies; // Grab the cookie (which is the Github token)
+  const query = `UPDATE users SET token = NULL WHERE token=$1`;
+  console.log("SSID IS ", ssid);
+  try {
+    await db.query(query, [ssid]);
+    return next();
+  } catch (err) {
+    console.log("UNABLE TO DESTROY TOKEN FOR USER: ", err.message);
+    next({ status: 500, message: "Failed to destroy token for user." });
+  }
+  next();
+};
+
+const expireCookie: RequestHandler = (_req, res, next) => {
+  res.cookie("loggedIn", "", { maxAge: 0 });
+  res.cookie("ssid", "", { maxAge: 0 });
+  next();
+};
+
+const getInfo: RequestHandler = (req, res, next) => {
+  const { token } = req.body;
+  console.log(token);
+  const query = `SELECT * FROM users WHERE users.token=$1`;
+  next();
+};
+
+// const createSession: RequestHandler = (_req, res, next) => {
+//   const { token } = res.locals;
+//   const salt = bcrypt.genSaltSync(8);
+//   const hashedToken = bcrypt.hashSync(token, salt);
+//   res.locals.hashedToken = hashedToken;
+//   return next();
+// };
+
 export default {
-  createSession,
-  destroySession,
-  createCookieFromSession,
-  expireCookie,
+  // createSession,
+  createCookieFromToken,
   saveUser,
   updateToken,
+  destroyToken,
+  expireCookie,
+  getInfo,
 };

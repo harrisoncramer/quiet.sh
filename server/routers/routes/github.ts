@@ -54,7 +54,7 @@ const getAccountInfo: RequestHandler = async (_req, res, next) => {
     });
 
     res.locals.accountInfo = await response.data;
-    console.log(res.locals);
+    console.log("USER DATA IS: ", res.locals);
     return next();
   } catch (err) {
     next({
