@@ -6,6 +6,7 @@ import Card from "../components/Card/Card";
 import theme from "../styles/theme";
 import Loader from "../components/Loader/Loader";
 import CenterWrapper from "../components/CenterWrapper/CenterWrapper";
+import SearchBar from "../components/Searchbar/Searchbar";
 
 const Main = () => {
   const [username, setUsername] = useState("");
@@ -13,6 +14,7 @@ const Main = () => {
   const [repos, setRepos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  const [filter, setFilter] = useState("");
   const [avatar, setAvatar] = useState("");
   const history = useHistory();
 
@@ -44,18 +46,28 @@ const Main = () => {
         isError={isError}
       />
       <MainWrapper>
-        {repos.length === 0 && !isError && (
-          <h3>You have no repositories in Github.</h3>
-        )}
-        {repos.map((repo) => {
-          return <Card key={repo.id} repo={repo} />;
-        })}
-        {isError && (
-          <h3>
-            Something went wrong. Your Github token may be expired. Please log
-            out and log back in.
-          </h3>
-        )}
+        {!isError && <SearchBar setFilter={setFilter} />}
+        <div className="grid">
+          {repos.length === 0 && !isError && (
+            <h3>You have no repositories in Github.</h3>
+          )}
+          {repos
+            .filter(
+              (repo) =>
+                filter.length <= 2 ||
+                repo.name?.includes(filter) ||
+                repo.description?.includes(filter)
+            )
+            .map((repo) => {
+              return <Card key={repo.id} repo={repo} />;
+            })}
+          {isError && (
+            <h3>
+              Something went wrong. Your Github token may be expired. Please log
+              out and log back in.
+            </h3>
+          )}
+        </div>
       </MainWrapper>
     </div>
   ) : (
@@ -70,9 +82,11 @@ const Main = () => {
 const MainWrapper = styled.main`
   margin: 0 auto;
   max-width: 960px;
-  display: grid;
-  gap: 1.3em;
-  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  .grid {
+    display: grid;
+    gap: 1.3em;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  }
 `;
 
 export default Main;
