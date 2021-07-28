@@ -1,7 +1,7 @@
 import { useHistory } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
-const App = () => {
+const Main = () => {
   const [username, setUsername] = useState("");
   const [avatar, setAvatar] = useState("");
   const history = useHistory();
@@ -39,4 +39,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Main;

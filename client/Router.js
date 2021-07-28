@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
-import Login from "./Login/Login";
-import App from "./App";
-import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import Login from "./views/Login";
+import Main from "./views/Main";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
-import global from "../styles/global.scss";
+import global from "./styles/global.scss";
 import normalize from "normalize.css";
 import "@fontsource/lato";
 
@@ -13,7 +13,7 @@ const Router = () => {
     <BrowserRouter>
       <Route path="/login" component={Login} />
       <PrivateRoute path="/">
-        <App />
+        <Main />
       </PrivateRoute>
     </BrowserRouter>
   );
