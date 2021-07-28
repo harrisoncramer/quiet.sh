@@ -6,11 +6,7 @@ export const LinkAsButton = styled.a`
   background-color: ${(props) => props.normal};
   font-size: 1em;
   color: black;
-  padding: 0.5em 0.7em;
-  border-top: 1px solid #cccccc;
-  border-right: 1px solid #333333;
-  border-bottom: 1px solid #333333;
-  border-left: 1px solid #cccccc;
+  padding: 0.6em 0.8em;
   &:hover {
     background-color: ${(props) => props.light};
     cursor: pointer;
@@ -22,12 +18,9 @@ export const Button = styled.button`
   text-decoration: none;
   background: ${(props) => props.normal};
   font-size: 1em;
+  border: none;
   color: black;
-  padding: 0.5em 0.7em;
-  border-top: 1px solid #cccccc;
-  border-right: 1px solid #333333;
-  border-bottom: 1px solid #333333;
-  border-left: 1px solid #cccccc;
+  padding: 0.6em 0.8em;
   &:hover {
     background-color: ${(props) => props.light};
     cursor: pointer;

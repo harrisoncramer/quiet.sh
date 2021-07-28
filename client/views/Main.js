@@ -1,22 +1,13 @@
 import { useHistory } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { Button } from "../components/PrimaryButton/PrimaryButton";
-import theme from "../styles/theme";
+import Header from "../components/Header/Header";
+import styled from "styled-components";
 
 const Main = () => {
   const [username, setUsername] = useState("");
+  const [cards, setCards] = useState([]);
   const [avatar, setAvatar] = useState("");
   const history = useHistory();
-
-  const handleLogOut = () => {
-    fetch("/api/user/logout")
-      .then(() => {
-        history.push("/");
-      })
-      .catch((error) => {
-        alert("Failure to log out!");
-      });
-  };
 
   // Fetch user information upon initial render.
   // Then pass this down to child components
@@ -32,19 +23,28 @@ const Main = () => {
       });
   }, []);
 
+  useEffect(() => {
+    fetch(`/api/cards`)
+      .then((response) => response.json())
+      .then((data) => {
+        setCards(data.cards);
+      });
+  }, []);
+
   return (
     <div>
-      <p>Welcome, @{username} </p>
-      <img src={avatar} />
-      <Button
-        onClick={handleLogOut}
-        normal={theme.colors.main}
-        light={theme.colors.lightMain}
-      >
-        Log Out
-      </Button>
+      <Header username={username} avatar_url={avatar} history={history} />
+      <MainWrapper>
+        {cards.length === 0 && <h3>You are not watching any repositories.</h3>}
+      </MainWrapper>
     </div>
   );
 };
+
+const MainWrapper = styled.main`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 export default Main;
