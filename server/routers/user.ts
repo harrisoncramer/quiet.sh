@@ -7,11 +7,10 @@ const router = express.Router();
 router.get(
   "/signin/callback",
   github.getToken, // Set on res.locals.token
-  github.getAccountInfo, // Gets account, sets on res.locals.accountInfo
-  // user.createSession, // Hashes and saves token into database, adds to res.locals.hashedToken
-  user.createCookieFromToken, // Sets "loggedIn" and "ssid" cookies using hashed token
-  user.saveUser, // Saves user to database if not exists
-  user.updateToken, // Updates new/old user's "token" field
+  github.getAccountInfo, // Gets account using token, sets on res.locals.accountInfo
+  user.createCookieFromToken, // Sets "loggedIn" and "ssid" cookies using token
+  user.saveUser, // Saves user to db
+  user.updateToken, // Updates user's token field
   (_req, res) => {
     // After login is complete and cookie is set, redirect them to the main page
     // of our React application. The "authenticate" function sees "loggedIn" true

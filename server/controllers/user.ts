@@ -15,7 +15,7 @@ const createCookieFromToken: RequestHandler = (_req, res, next) => {
     httpOnly: false,
   });
 
-  next();
+  return next();
 };
 
 const saveUser: RequestHandler = async (_req, res, next) => {
@@ -27,7 +27,7 @@ const saveUser: RequestHandler = async (_req, res, next) => {
     return next();
   } catch (err) {
     console.log("FAILED TO SAVE USER TO DB: ", err.message);
-    next({ status: 500, message: "Failed to save user to database." });
+    return next({ status: 500, message: "Failed to save user to database." });
   }
 };
 
@@ -41,11 +41,11 @@ const updateToken: RequestHandler = async (_req, res, next) => {
     return next();
   } catch (err) {
     console.log("FAILED TO SAVE TOKEN TO DB: ", err.message);
-    next({ status: 500, message: "Failed to save token to database." });
+    return next({ status: 500, message: "Failed to save token to database." });
   }
 };
 
-const destroyToken: RequestHandler = async (req, res, next) => {
+const destroyToken: RequestHandler = async (req, _res, next) => {
   const { ssid } = req.cookies; // Grab the cookie (which is the Github token)
   const query = `UPDATE users SET token = NULL WHERE token=$1`;
   console.log("SSID IS ", ssid);
@@ -54,22 +54,27 @@ const destroyToken: RequestHandler = async (req, res, next) => {
     return next();
   } catch (err) {
     console.log("UNABLE TO DESTROY TOKEN FOR USER: ", err.message);
-    next({ status: 500, message: "Failed to destroy token for user." });
+    return next({ status: 500, message: "Failed to destroy token for user." });
   }
-  next();
 };
 
 const expireCookie: RequestHandler = (_req, res, next) => {
   res.cookie("loggedIn", "", { maxAge: 0 });
   res.cookie("ssid", "", { maxAge: 0 });
-  next();
+  return next();
 };
 
-const getInfo: RequestHandler = (req, res, next) => {
-  const { token } = req.body;
-  console.log(token);
-  const query = `SELECT * FROM users WHERE users.token=$1`;
-  next();
+const getInfo: RequestHandler = async (req, res, next) => {
+  const { ssid } = req.cookies;
+  const query = `SELECT users.avatar_url, users.login FROM users WHERE users.token=$1`;
+  try {
+    const { rows } = await db.query(query, [ssid]);
+    res.locals.userInfo = { ...rows[0] };
+    return next();
+  } catch (err) {
+    console.log("UNABLE TO FETCH USER INFO: ", err.message);
+    return next({ status: 400, message: "Failed to get user info." });
+  }
 };
 
 // const createSession: RequestHandler = (_req, res, next) => {

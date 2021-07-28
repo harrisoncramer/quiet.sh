@@ -1,13 +1,10 @@
 import { useHistory } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const App = () => {
+  const [username, setUsername] = useState("");
+  const [avatar, setAvatar] = useState("");
   const history = useHistory();
-  const handleRequestToBackend = () => {
-    fetch("/api/user/info")
-      .then((response) => response.json())
-      .then((data) => console.log(data));
-  };
 
   const handleLogOut = () => {
     fetch("/api/user/logout")
@@ -19,14 +16,24 @@ const App = () => {
       });
   };
 
+  // Fetch user information upon initial render.
+  // Then pass this down to child components
   useEffect(() => {
-    const data = "";
+    fetch("/api/user/info")
+      .then((response) => response.json())
+      .then((data) => {
+        setUsername(data.login);
+        setAvatar(data.avatar_url);
+      })
+      .catch((err) => {
+        console.log("COULD NOT FETCH USER INFO", err);
+      });
   }, []);
 
   return (
     <div>
-      <p>Welcome to the App</p>
-      <button onClick={handleRequestToBackend}>Get user data</button>
+      <p>Welcome, @{username} </p>
+      <img src={avatar} />
       <button onClick={handleLogOut}>Log Out</button>
     </div>
   );
