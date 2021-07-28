@@ -17,6 +17,8 @@
   "author": "Harrison Cramer <kingofcramers.dev@gmail.com> (https://github.com/kingofcramers)",
   "license": "MIT",
   "dependencies": {
+    "@fontsource/lato": "^4.5.0",
+    "@fontsource/open-sans": "^4.5.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/cookie-parser": "^1.4.2",
     "axios": "^0.21.1",

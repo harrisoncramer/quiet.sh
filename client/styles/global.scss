@@ -3,6 +3,16 @@ body {
   height: 100%;
   color: #eee;
   background-color: #141414;
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: "Lato";
+  }
+  p,
+  a {
+    font-family: "open-sans";
+  }
 }
 
 a {
