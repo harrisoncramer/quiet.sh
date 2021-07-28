@@ -5,7 +5,7 @@ export const LinkAsButton = styled.a`
   text-decoration: none;
   background-color: ${(props) => props.normal};
   font-size: 1em;
-  color: black;
+  color: ${(props) => props.color ?? "black"};
   padding: 0.6em 0.8em;
   &:hover {
     background-color: ${(props) => props.light};
@@ -19,7 +19,7 @@ export const Button = styled.button`
   background: ${(props) => props.normal};
   font-size: 1em;
   border: none;
-  color: black;
+  color: ${(props) => props.color ?? "black"};
   padding: 0.6em 0.8em;
   &:hover {
     background-color: ${(props) => props.light};

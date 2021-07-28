@@ -1,32 +1,49 @@
 import React from "react";
 import styled from "styled-components";
-import { LinkAsButton } from "../PrimaryButton/PrimaryButton";
+import { LinkAsButton, Button } from "../PrimaryButton/PrimaryButton";
 import theme from "../../styles/theme";
 
 const Card = ({ repo }) => {
-  console.log(repo);
   return (
     <StyledSection>
       <div>
-        <StyledP>Title: {repo.name}</StyledP>
-        {repo.description && <StyledP>Description: {repo.description}</StyledP>}
-        <StyledP>ID: {repo.id}</StyledP>
+        <h3>{repo.name}</h3>
+        {repo.description && <StyledP>{repo.description}</StyledP>}
+        <ItalicP>ID: {repo.id}</ItalicP>
       </div>
-      <div>
+      <StyledButtonWrapper>
         <LinkAsButton
           href={repo.html_url}
-          normal={theme.colors.main}
-          light={theme.colors.lightMain}
+          normal={theme.colors.mainBackground}
+          light={"black"}
+          color={"white"}
         >
           Visit
         </LinkAsButton>
-      </div>
+        <Button
+          normal={theme.colors.mainBackground}
+          light={"black"}
+          color={"white"}
+        >
+          Secrets
+        </Button>
+      </StyledButtonWrapper>
     </StyledSection>
   );
 };
 
 const StyledP = styled.p`
   margin: 0px;
+`;
+
+const ItalicP = styled.p`
+  font-style: italic;
+`;
+
+const StyledButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const StyledSection = styled.div`
