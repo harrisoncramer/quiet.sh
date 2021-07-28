@@ -65,15 +65,23 @@ const getAccountInfo: RequestHandler = async (_req, res, next) => {
   }
 };
 
-const getRepos: RequestHandler = async (_req, res, next) => {
+const getRepos: RequestHandler = async (req, res, next) => {
   try {
+    const { userInfo } = res.locals;
+    const { ssid } = req.cookies;
     const response = await axios.get(
-      `https://api.github.com/users/${res.locals.userInfo.login}/repos?sort=updated&per_page=5`
+      `https://api.github.com/users/${userInfo.login}/repos?sort=updated&per_page=5`,
+      {
+        headers: {
+          Authorization: `token ${ssid}`,
+        },
+      }
     );
 
     res.locals.repos = await response.data;
     return next();
   } catch (err) {
+    console.log(err);
     next({
       status: 500,
       message: "Failed to get user repos from Github.",
