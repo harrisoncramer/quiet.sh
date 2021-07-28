@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import theme from "../styles/theme";
-import PrimaryButton from "../components/PrimaryButton/PrimaryButton";
+import { LinkAsButton } from "../components/PrimaryButton/PrimaryButton";
+import Loader from "../components/Loader/Loader";
 
 const Login = () => {
-  return (
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLoginAttempt = (e) => {
+    setIsLoading(true);
+  };
+
+  return !isLoading ? (
     <StyledWrapper className="login">
       <h1>Quiet.sh</h1>
       <h4>
@@ -12,20 +19,26 @@ const Login = () => {
         you stay in control of your secrets.
       </h4>
       <p>
-        <PrimaryButton
+        <LinkAsButton
           href={`https://github.com/login/oauth/authorize?client_id=c22f8f7f7ebf39d02794`}
-          normal={theme.colors.blue}
-          light={theme.colors.lightblue}
+          normal={theme.colors.main}
+          light={theme.colors.lightMain}
+          onClick={handleLoginAttempt}
         >
           Login with Github
-        </PrimaryButton>
+        </LinkAsButton>
       </p>
+    </StyledWrapper>
+  ) : (
+    <StyledWrapper>
+      <Loader color={theme.colors.main} />
     </StyledWrapper>
   );
 };
 
 const StyledWrapper = styled.div`
   display: flex;
+  margin-bottom: 20em;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -37,10 +50,6 @@ const StyledWrapper = styled.div`
 
   h4 {
     margin-top: 1em;
-  }
-
-  p {
-    margin-bottom: 20em;
   }
 `;
 

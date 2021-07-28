@@ -32,7 +32,7 @@ const getToken: RequestHandler = async (req, res, next) => {
 
     // Pass token to the next middleware, which is createSession
     // CREATE A JWT, and set it on the CLient
-    // On subsequent requests, use that JWT to make requests to Github's API.
+    // On subsequent requests, use that JWT to make requests to Github's API
     res.locals.token = token;
 
     return next();

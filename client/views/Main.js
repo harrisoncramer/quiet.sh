@@ -1,5 +1,7 @@
 import { useHistory } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { Button } from "../components/PrimaryButton/PrimaryButton";
+import theme from "../styles/theme";
 
 const Main = () => {
   const [username, setUsername] = useState("");
@@ -34,7 +36,13 @@ const Main = () => {
     <div>
       <p>Welcome, @{username} </p>
       <img src={avatar} />
-      <button onClick={handleLogOut}>Log Out</button>
+      <Button
+        onClick={handleLogOut}
+        normal={theme.colors.main}
+        light={theme.colors.lightMain}
+      >
+        Log Out
+      </Button>
     </div>
   );
 };
