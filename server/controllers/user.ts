@@ -42,9 +42,38 @@ const createCookieFromSession: RequestHandler = (req, res, next) => {
   next();
 };
 
+const saveUser: RequestHandler = async (_req, res, next) => {
+  const { accountInfo } = res.locals;
+  const { avatar_url, id, login, repos_url } = accountInfo;
+  const query = `INSERT INTO users (avatar_url, github_id, login, repos_url) VALUES ($1, $2, $3, $4) ON CONFLICT (github_id) DO NOTHING; `; // PSQL Save Query...
+  try {
+    await db.query(query, [avatar_url, id, login, repos_url]);
+    return next();
+  } catch (err) {
+    console.log("FAILED TO SAVE USER TO DB: ", err.message);
+    next({ status: 500, message: "Failed to save user to database." });
+  }
+};
+
+const updateToken: RequestHandler = async (req, res, next) => {
+  const { accountInfo } = res.locals;
+  const { token } = res.locals;
+  const { id } = accountInfo;
+  const query = `UPDATE users SET token = $1 WHERE github_id = $2`; // PSQL Save Query...
+  try {
+    await db.query(query, [token, id]);
+    return next();
+  } catch (err) {
+    console.log("FAILED TO SAVE TOKEN TO DB: ", err.message);
+    next({ status: 500, message: "Failed to save token to database." });
+  }
+};
+
 export default {
   createSession,
   destroySession,
   createCookieFromSession,
   expireCookie,
+  saveUser,
+  updateToken,
 };

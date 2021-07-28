@@ -11,10 +11,13 @@ router.get(
   user.createSession,
   user.createCookieFromSession,
   github.getAccountInfo,
+  user.saveUser,
+  user.updateToken,
   (_req, res) => {
     // After login is complete and cookie is set, redirect them to the main page
     // of our React application. Upon hitting the "authenticate" function, they
     // should now pass and be directed to our private routes.
+    // When this is served in production, just redirect to "/"
     res.status(200).redirect("http://localhost:8080/");
   }
 );

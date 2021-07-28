@@ -1,5 +1,7 @@
-CREATE TABLE users (varchar(300) NOT NULL);
-/* Copy data */
-COPY joke (body, reddit_id, likes, opening)
-from
-  '/Users/harrisoncramer/Desktop/jokes.csv' DELIMITER ',' CSV HEADER;
+CREATE TABLE users (
+  github_id integer NOT NULL PRIMARY KEY,
+  login varchar(100) NOT NULL,
+  avatar_url varchar(100),
+  repos_url varchar(100) NOT NULL,
+  token varchar(75)
+);
