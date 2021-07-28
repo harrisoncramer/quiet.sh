@@ -26,3 +26,17 @@ export const Button = styled.button`
     cursor: pointer;
   }
 `;
+
+export const SmallButton = styled.button`
+  font-family: "Lato";
+  text-decoration: none;
+  background: ${(props) => props.normal};
+  font-size: 1em;
+  border: none;
+  color: ${(props) => props.color ?? "black"};
+  padding: 0.3em 0.5em;
+  &:hover {
+    background-color: ${(props) => props.light};
+    cursor: pointer;
+  }
+`;

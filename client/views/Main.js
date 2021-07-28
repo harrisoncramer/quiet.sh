@@ -46,7 +46,7 @@ const Main = () => {
         isError={isError}
       />
       <MainWrapper>
-        {!isError && <SearchBar setFilter={setFilter} />}
+        {!isError && <SearchBar response={setFilter} />}
         <div className="grid">
           {repos.length === 0 && !isError && (
             <h3>You have no repositories in Github.</h3>
