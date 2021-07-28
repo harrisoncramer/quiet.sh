@@ -4,6 +4,9 @@ import Login from "./Login/Login";
 import App from "./App";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 
+import global from "../styles/global.scss";
+import normalize from "normalize.css";
+
 const Router = () => {
   return (
     <BrowserRouter>

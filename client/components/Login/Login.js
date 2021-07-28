@@ -1,8 +1,9 @@
 import React from "react";
+import styled from "styled-components";
 
 const Login = () => {
   return (
-    <div className="login">
+    <StyledWrapper className="login">
       <p>Please Login</p>
       <p>
         <a
@@ -11,8 +12,13 @@ const Login = () => {
           Login
         </a>
       </p>
-    </div>
+    </StyledWrapper>
   );
 };
+
+const StyledWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 export default Login;
