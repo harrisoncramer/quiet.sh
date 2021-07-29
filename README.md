@@ -8,7 +8,7 @@ By signing in, users can query their repos and create reports of any offending f
 
 The backend of the project is written in Typescript, the frontend is React.
 
-I'm happy to take pull requests however this project is not yet production ready and should not be relied upon for serious workflows. Due to a limitation in Github's codes-searching API, the project also only now searches the master branch.
+I'm happy to take pull requests however this project is not yet production ready and should not be relied upon for serious workflows. Due to a limitation in Github's code-searching API, the project also only now searches the master branch.
 
 ## Security
 
