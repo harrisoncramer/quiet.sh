@@ -82,16 +82,43 @@ const getRepos: RequestHandler = async (req, res, next) => {
     res.locals.repos = await response.data;
     return next();
   } catch (err) {
-    console.log(err);
-    next({
+    return next({
       status: 500,
       message: "Failed to get user repos from Github.",
     });
   }
 };
 
+const searchSecrets: RequestHandler = async (req, res, next) => {
+  try {
+    // Mutliple secrets search...
+    const { repo, secrets } = req.body;
+    console.log("REPO IS", repo);
+    console.log("SECRETS ARE ", secrets);
+    const { ssid, github_username } = req.cookies;
+    const response = await axios.get(
+      `https://api.github.com/search/code?q=${secrets[0]}+in:file+repo:${github_username}/quiet.sh`,
+      {
+        headers: {
+          Authorization: `token ${ssid}`,
+        },
+      }
+    );
+
+    res.locals.searchResult = await response.data;
+    console.log("SEARCH RESULT IS", res.locals.searchResult);
+    return next();
+  } catch (err) {
+    return next({
+      status: 500,
+      message: "Failed to search repositories with provided secrets.",
+    });
+  }
+};
+
 export default {
   getToken,
+  searchSecrets,
   getAccountInfo,
   getRepos,
 };
