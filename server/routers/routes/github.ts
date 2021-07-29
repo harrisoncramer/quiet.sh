@@ -92,9 +92,7 @@ const getRepos: RequestHandler = async (req, res, next) => {
 const searchSecrets: RequestHandler = async (req, res, next) => {
   try {
     // Mutliple secrets search...
-    const { repo, secrets } = req.body;
-    console.log("REPO IS", repo);
-    console.log("SECRETS ARE ", secrets);
+    const { secrets } = req.body;
     const { ssid, github_username } = req.cookies;
     const responseQueue = [];
     for (const secret of secrets) {
@@ -112,7 +110,6 @@ const searchSecrets: RequestHandler = async (req, res, next) => {
 
     const results = await Promise.all(responseQueue);
     res.locals.searchResult = results;
-    console.log("SEARCH RESULT IS", res.locals.searchResult);
     return next();
   } catch (err) {
     console.log(err);

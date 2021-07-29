@@ -8,7 +8,7 @@ import SearchBar from "../components/Searchbar/Searchbar";
 import useUserGithubInfo from "../hooks/useUserGithubInfo";
 
 const Main = () => {
-  const { username, repos, isLoading, isError, avatar } = useUserGithubInfo();
+  const { repos, isLoading, isError } = useUserGithubInfo();
   const [filter, setFilter] = useState("");
 
   const handleCheckSecrets = ({ repo, secrets }) => {
@@ -18,14 +18,9 @@ const Main = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ repo, secrets }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    }).catch((err) => {
+      console.log(err);
+    });
   };
 
   return !isLoading ? (

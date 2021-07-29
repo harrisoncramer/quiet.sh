@@ -13,14 +13,17 @@ const createReport: RequestHandler = async (req, res, next) => {
         exposed_files.push(item.html_url)
       );
     }
+
+    // Set exposed files to be saved into separate table...
+    res.locals.exposed_files = exposed_files;
+
     const is_exposed = exposed_count > 0;
-    console.log("EXPOSURES ARE ", exposed_files);
 
     // Get information about query from locals...
     const { repo, secrets } = req.body;
     const { user_id } = req.cookies;
     const { id, description, full_name, html_url } = repo;
-    const query = `INSERT INTO reports (repo_id, description, full_name, html_url, user_id, is_gitleaks, number_of_secrets, time_of_execution, exposed_count, is_exposed) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
+    const query = `INSERT INTO reports (repo_id, description, full_name, html_url, user_id, is_gitleaks, number_of_secrets, time_of_execution, exposed_count, is_exposed) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING report_id`;
 
     const params = [
       id,
@@ -34,11 +37,12 @@ const createReport: RequestHandler = async (req, res, next) => {
       exposed_count,
       is_exposed,
     ];
+
     const { rows } = await db.query(query, params);
-    res.locals.report = rows;
+    res.locals.report_id = rows[0].report_id;
     return next();
   } catch (err) {
-    console.log("FAILED TO SAVE USER TO DB: ", err.message);
+    console.log("FAILED TO SAVE REPORT TO DB: ", err.message);
     return next({ status: 500, message: "Failed to save user to database." });
   }
 };
@@ -63,7 +67,6 @@ const deleteReport: RequestHandler = async (req, _res, next) => {
     await db.query(query, [report_id, user_id]);
     return next();
   } catch (err) {
-    console.log(err);
     return next({ status: 500, message: "Unable to delete report." });
   }
 };

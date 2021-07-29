@@ -5,7 +5,6 @@ CREATE TABLE users (
   repos_url varchar(100) NOT NULL,
   token varchar(75)
 );
-
 CREATE TABLE reports (
   report_id SERIAL PRIMARY KEY,
   repo_id integer,
@@ -18,4 +17,10 @@ CREATE TABLE reports (
   time_of_execution timestamp,
   is_exposed boolean DEFAULT false,
   exposed_count integer DEFAULT 0
-)
+);
+CREATE TABLE exposures (
+  user_id integer REFERENCES users(github_id),
+  repo_id integer,
+  report_id integer REFERENCES reports(report_id),
+  url varchar(500)
+);

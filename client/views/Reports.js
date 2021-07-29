@@ -32,7 +32,7 @@ const Report = ({
           <Indicator isPassed={!is_exposed} />
           <Button
             color={"white"}
-            normal={theme.colors.mainBackground}
+            normal={theme.colors.secondaryBackground}
             light={"black"}
             onClick={() => setShowDetails(!showDetails)}
           >
