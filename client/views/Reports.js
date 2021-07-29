@@ -74,7 +74,7 @@ const Report = ({
       </TitleDiv>
       <Content>
         <div> Secrets Checked: {number_of_secrets}</div>
-        <div>Files with Exposed Secrets: {exposed_count}</div>
+        <div>Total vulnerabilities: {exposed_count}</div>
         <div>{is_gitleaks}</div>
         <div>
           Executed: {dayjs(time_of_execution).format("h:mm A -- MM/DD/YYYY")}
@@ -146,12 +146,12 @@ const ReportItem = styled.div`
 `;
 
 const ReportWrapper = styled.div`
+  max-width: 1500px;
+  margin: 0 auto;
   display: flex;
   padding: 1em;
   flex-direction: column;
   gap: 1em;
-  margin: 0 auto;
-  max-width: 960px;
 `;
 
 const SettingsWrapper = styled.div`
