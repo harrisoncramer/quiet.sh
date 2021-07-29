@@ -55,7 +55,7 @@ const getReports: RequestHandler = async (req, res, next) => {
   }
 };
 
-const deleteReport: RequestHandler = async (req, res, next) => {
+const deleteReport: RequestHandler = async (req, _res, next) => {
   try {
     const { report_id } = req.body;
     const { user_id } = req.cookies;

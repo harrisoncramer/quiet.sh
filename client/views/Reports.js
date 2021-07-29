@@ -125,11 +125,15 @@ const Reports = () => {
   return !isLoading ? (
     <ReportWrapper>
       <h2>Reports</h2>
-      {reports.length > 0 &&
+      {isError ? (
+        <div>An error occured fetching your reports.</div>
+      ) : (
+        reports.length > 0 &&
         reports.map((report, i) => {
           console.log(report);
           return <Report key={i} {...report} deleteReport={deleteReport} />;
-        })}
+        })
+      )}
     </ReportWrapper>
   ) : (
     <CenterWrapper>
