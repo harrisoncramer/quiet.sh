@@ -21,9 +21,28 @@ const Report = ({
 
   return (
     <ReportItem>
-      <Indicator isPassed={!is_exposed} />
       <TitleDiv>
-        Repo: <a href={html_url}>{full_name}</a>
+        <div>
+          Repo: <a href={html_url}>{full_name}</a>
+        </div>
+        <SettingsWrapper>
+          <Indicator isPassed={!is_exposed} />
+          <Button
+            color={"white"}
+            normal={theme.colors.mainBackground}
+            light={"black"}
+            onClick={() => setShowDetails(!showDetails)}
+          >
+            {!showDetails ? "Show Details" : "Hide Details"}
+          </Button>
+          <Button
+            color={"white"}
+            normal={theme.colors.warning}
+            light={theme.colors.warningDark}
+          >
+            Delete
+          </Button>
+        </SettingsWrapper>
       </TitleDiv>
       <Content>
         <div> Secrets Checked: {number_of_secrets}</div>
@@ -33,23 +52,6 @@ const Report = ({
           Executed: {dayjs(time_of_execution).format("h:mm A -- MM/DD/YYYY")}
         </div>
       </Content>
-      <SettingsWrapper>
-        <Button
-          color={"white"}
-          normal={theme.colors.mainBackground}
-          light={"black"}
-          onClick={() => setShowDetails(!showDetails)}
-        >
-          Details
-        </Button>
-        <Button
-          color={"white"}
-          normal={theme.colors.mainBackground}
-          light={"black"}
-        >
-          Delete
-        </Button>
-      </SettingsWrapper>
       {showDetails && (
         <ReportDetailsWrapper>
           This is where we'd show the exposed file paths.
@@ -66,6 +68,9 @@ const ReportDetailsWrapper = styled.div`
 
 const TitleDiv = styled.div`
   background: #0f0f0f;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border-radius: 5px 5px 0px 0px;
   border-bottom: none;
   padding: 1em;
@@ -95,10 +100,13 @@ const ReportWrapper = styled.div`
 `;
 
 const SettingsWrapper = styled.div`
-  width: 100%;
   display: flex;
   gap: 0.5em;
   justify-content: flex-end;
+  align-items: center;
+  button {
+    margin-right: 0.5em;
+  }
 `;
 
 const Reports = () => {
