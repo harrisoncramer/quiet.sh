@@ -35,7 +35,7 @@ const Report = ({
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          setDetails(data);
           setShowDetails(true);
         })
         .catch((err) => {
@@ -82,11 +82,17 @@ const Report = ({
       </Content>
       {showDetails && (
         <ReportDetailsWrapper>
-          {!is_exposed && (
+          {!is_exposed ? (
             <div>
               There were no secrets exposed on this check. Feel free to delete
               this report.
             </div>
+          ) : (
+            details.map(({ url }, i) => (
+              <StyledExposure key={i}>
+                <a href={url}>{url}</a>
+              </StyledExposure>
+            ))
           )}
         </ReportDetailsWrapper>
       )}
@@ -94,6 +100,15 @@ const Report = ({
   );
 };
 
+const StyledExposure = styled.div`
+  max-width: 80%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  a {
+    color: white;
+  }
+`;
 const ReportDetailsWrapper = styled.div`
   display: flex;
   flex-direction: column;

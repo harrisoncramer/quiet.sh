@@ -60,9 +60,19 @@ const getReports: RequestHandler = async (req, res, next) => {
 };
 
 const deleteReport: RequestHandler = async (req, _res, next) => {
+  const { report_id } = req.body;
+  const { user_id } = req.cookies;
   try {
-    const { report_id } = req.body;
-    const { user_id } = req.cookies;
+    const query = `DELETE FROM exposures WHERE report_id=$1`;
+    await db.query(query, [report_id]);
+  } catch {
+    return next({
+      status: 500,
+      message: "Unable to delete exposures assocaited with report.",
+    });
+  }
+  try {
+    // First delete any exposures associated with the report...
     const query = `DELETE FROM reports WHERE report_id=$1 AND user_id=$2`;
     await db.query(query, [report_id, user_id]);
     return next();
