@@ -14,10 +14,10 @@ const Login = () => {
   return !isLoading ? (
     <CenterWrapper className="login">
       <h1>Quiet.sh</h1>
-      <h4>
+      <h3>
         The secure, fast, and open-source repository monitoring tool that lets
         you stay in control of your secrets.
-      </h4>
+      </h3>
       <p>
         <LinkAsButton
           href={`https://github.com/login/oauth/authorize?client_id=c22f8f7f7ebf39d02794`}
@@ -26,6 +26,15 @@ const Login = () => {
           onClick={handleLoginAttempt}
         >
           Login with Github
+        </LinkAsButton>
+        <LinkAsButton
+          style={{ marginLeft: "10px" }}
+          normal={theme.colors.secondaryBackground}
+          light={"black"}
+          color={"white"}
+          href={"https://github.com/harrisoncramer/quiet.sh"}
+        >
+          View the code
         </LinkAsButton>
       </p>
     </CenterWrapper>

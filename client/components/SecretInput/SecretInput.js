@@ -20,7 +20,6 @@ const SecretInput = ({ handleAddSecret, handleClearSecrets }) => {
   return (
     <div>
       <StyledSearchBar
-        type="password"
         value={text}
         onChange={handleChange}
         background={theme.colors.mainBackground}
