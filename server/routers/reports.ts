@@ -17,7 +17,7 @@ router.get("/", reports.getReports, (_req, res) => {
   res.status(200).send(res.locals.reports);
 });
 
-router.delete("/", reports.deleteReport, (req, res) => {
+router.delete("/", reports.deleteReport, (_req, res) => {
   res.status(200).send(res.locals.report);
 });
 
