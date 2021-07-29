@@ -16,12 +16,11 @@ const Report = ({
   exposed_count,
   is_gitleaks,
   time_of_execution,
+  deleteReport,
+  report_id,
+  user_id,
 }) => {
   const [showDetails, setShowDetails] = useState(false);
-
-  const handleDeleteReport = () => {
-    // fetch to /reports/delete
-  };
 
   return (
     <ReportItem>
@@ -43,7 +42,7 @@ const Report = ({
             color={"white"}
             normal={theme.colors.warning}
             light={theme.colors.warningDark}
-            onClick={handleDeleteReport}
+            onClick={() => deleteReport({ report_id, user_id })}
           >
             Delete
           </Button>
@@ -74,6 +73,7 @@ const Report = ({
 const ReportDetailsWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 1em;
 `;
 
 const TitleDiv = styled.div`
@@ -120,19 +120,17 @@ const SettingsWrapper = styled.div`
 `;
 
 const Reports = () => {
-  const { isLoading, isError, reports } = useReports();
-  console.log(reports);
+  const { isLoading, isError, reports, deleteReport } = useReports();
+
   return !isLoading ? (
-    <>
-      {reports.length > 0 && (
-        <ReportWrapper>
-          <h2>Reports</h2>
-          {reports.map((report, i) => {
-            return <Report key={i} {...report} />;
-          })}
-        </ReportWrapper>
-      )}
-    </>
+    <ReportWrapper>
+      <h2>Reports</h2>
+      {reports.length > 0 &&
+        reports.map((report, i) => {
+          console.log(report);
+          return <Report key={i} {...report} deleteReport={deleteReport} />;
+        })}
+    </ReportWrapper>
   ) : (
     <CenterWrapper>
       <Loader color={theme.colors.main} />

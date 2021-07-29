@@ -17,8 +17,8 @@ router.get("/", reports.getReports, (_req, res) => {
   res.status(200).send(res.locals.reports);
 });
 
-router.delete("/", reports.deleteReport, (_req, res) => {
-  res.status(200).send(res.locals.report);
+router.delete("/", reports.deleteReport, reports.getReports, (_req, res) => {
+  res.status(200).send(res.locals.reports);
 });
 
 export default router;

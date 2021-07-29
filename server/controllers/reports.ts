@@ -57,14 +57,13 @@ const getReports: RequestHandler = async (req, res, next) => {
 
 const deleteReport: RequestHandler = async (req, res, next) => {
   try {
-    const { id } = req.body;
+    const { report_id } = req.body;
     const { user_id } = req.cookies;
-    const query = `DELETE FROM reports WHERE id=$1 AND user_id=$2`;
-    const { rows } = await db.query(query, [id, user_id]);
-    console.log(rows);
-    res.locals.reports = rows;
+    const query = `DELETE FROM reports WHERE report_id=$1 AND user_id=$2`;
+    await db.query(query, [report_id, user_id]);
     return next();
   } catch (err) {
+    console.log(err);
     return next({ status: 500, message: "Unable to delete report." });
   }
 };
