@@ -1,57 +1,104 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import useUserGithubInfo from "../hooks/useUserGithubInfo";
-import Header from "../components/Header/Header";
+import React, { useState } from "react";
 import CenterWrapper from "../components/CenterWrapper/CenterWrapper";
 import Loader from "react-loader-spinner";
 import theme from "../styles/theme";
 import useReports from "../hooks/useReports";
 import dayjs from "dayjs";
 import styled from "styled-components";
+import Indicator from "../components/Indicator/Indicator";
+import { Button } from "../components/PrimaryButton/PrimaryButton";
 
-const ReportsDisplay = ({ reports }) => {
-  console.log("REPORTS ARE: ", reports);
-  return reports.map((report, i) => {
-    const {
-      exposed_count,
-      full_name,
-      html_url,
-      is_exposed,
-      is_gitleaks,
-      number_of_secrets,
-      time_of_execution,
-    } = report;
+const Report = ({
+  is_exposed,
+  html_url,
+  full_name,
+  number_of_secrets,
+  exposed_count,
+  is_gitleaks,
+  time_of_execution,
+}) => {
+  const [showDetails, setShowDetails] = useState(false);
 
-    return (
-      <ReportItem key={i}>
-        <div>
-          Repo: <a href={html_url}>{full_name}</a>
-        </div>
+  return (
+    <ReportItem>
+      <Indicator isPassed={!is_exposed} />
+      <TitleDiv>
+        Repo: <a href={html_url}>{full_name}</a>
+      </TitleDiv>
+      <Content>
         <div> Secrets Checked: {number_of_secrets}</div>
         <div>Files with Exposed Secrets: {exposed_count}</div>
         <div>{is_gitleaks}</div>
         <div>
           Executed: {dayjs(time_of_execution).format("h:mm A -- MM/DD/YYYY")}
         </div>
-      </ReportItem>
-    );
-  });
+      </Content>
+      <SettingsWrapper>
+        <Button
+          color={"white"}
+          normal={theme.colors.mainBackground}
+          light={"black"}
+          onClick={() => setShowDetails(!showDetails)}
+        >
+          Details
+        </Button>
+        <Button
+          color={"white"}
+          normal={theme.colors.mainBackground}
+          light={"black"}
+        >
+          Delete
+        </Button>
+      </SettingsWrapper>
+      {showDetails && (
+        <ReportDetailsWrapper>
+          This is where we'd show the exposed file paths.
+        </ReportDetailsWrapper>
+      )}
+    </ReportItem>
+  );
 };
 
+const ReportDetailsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const TitleDiv = styled.div`
+  background: #0f0f0f;
+  border-radius: 5px 5px 0px 0px;
+  border-bottom: none;
+  padding: 1em;
+`;
+
+const Content = styled.div`
+  padding: 1em;
+`;
 const ReportItem = styled.div`
+  border-radius: 5px 5px 0px 0px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-top: none;
+  font-family: "Open Sans";
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 1em;
   background: #202020;
 `;
 
 const ReportWrapper = styled.div`
   display: flex;
+  padding: 1em;
   flex-direction: column;
   gap: 1em;
   margin: 0 auto;
   max-width: 960px;
+`;
+
+const SettingsWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 0.5em;
+  justify-content: flex-end;
 `;
 
 const Reports = () => {
@@ -61,7 +108,9 @@ const Reports = () => {
       {reports.length > 0 && (
         <ReportWrapper>
           <h2>Reports</h2>
-          <ReportsDisplay reports={reports} />
+          {reports.map((report, i) => {
+            return <Report key={i} {...report} />;
+          })}
         </ReportWrapper>
       )}
     </>

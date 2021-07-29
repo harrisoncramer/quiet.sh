@@ -46,7 +46,7 @@ const createReport: RequestHandler = async (req, res, next) => {
 const getReports: RequestHandler = async (req, res, next) => {
   try {
     const { user_id } = req.cookies;
-    const query = `SELECT * FROM reports WHERE reports.user_id=$1`;
+    const query = `SELECT * FROM reports WHERE reports.user_id=$1 ORDER BY time_of_execution DESC`;
     const { rows } = await db.query(query, [user_id]);
     res.locals.reports = rows;
     return next();
