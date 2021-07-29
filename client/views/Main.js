@@ -1,5 +1,5 @@
 import { useHistory } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "../components/Header/Header";
 import styled from "styled-components";
 import Card from "../components/Card/Card";
@@ -7,34 +7,12 @@ import theme from "../styles/theme";
 import Loader from "../components/Loader/Loader";
 import CenterWrapper from "../components/CenterWrapper/CenterWrapper";
 import SearchBar from "../components/Searchbar/Searchbar";
+import useUserGithubInfo from "../hooks/useUserGithubInfo";
 
 const Main = () => {
-  const [username, setUsername] = useState("");
-  const [repos, setRepos] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const { username, repos, isLoading, isError, avatar } = useUserGithubInfo();
   const [filter, setFilter] = useState("");
-  const [avatar, setAvatar] = useState("");
   const history = useHistory();
-
-  // Fetch user information upon initial render.
-  // Then pass this down to child components
-  useEffect(() => {
-    fetch("/api/user/info")
-      .then((response) => response.json())
-      .then(({ userInfo, repos }) => {
-        setIsError(false);
-        setUsername(userInfo.login);
-        setAvatar(userInfo.avatar_url);
-        setRepos(repos);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log("COULD NOT FETCH USER INFO AND REPOS", err);
-        setIsError(true);
-        setIsLoading(false);
-      });
-  }, []);
 
   const handleCheckSecrets = ({ repo, secrets }) => {
     console.log(secrets, repo);
