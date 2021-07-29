@@ -1,10 +1,14 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Button } from "../PrimaryButton/PrimaryButton";
 import styled from "styled-components";
 import theme from "../../styles/theme";
 import Dropdown from "../Dropdown/Dropdown";
+import useUserGithubInfo from "../../hooks/useUserGithubInfo";
 
-const Header = ({ username, avatar_url, history, isError }) => {
+const Header = ({ children }) => {
+  const { username, avatar, isError } = useUserGithubInfo();
+  const history = useHistory();
   const [isDropdownActive, setIsDropdownActive] = useState(false);
   const handleLogOut = () => {
     fetch("/api/user/logout")
@@ -12,7 +16,10 @@ const Header = ({ username, avatar_url, history, isError }) => {
         history.push("/");
       })
       .catch((error) => {
-        alert("Failure to log out!");
+        console.log(error);
+        alert(
+          "Failure to log out! Please manually clear your cookies for this site if they haven't already been cleared."
+        );
       });
   };
 
@@ -21,32 +28,35 @@ const Header = ({ username, avatar_url, history, isError }) => {
   };
 
   return (
-    <StyledHeader>
-      <Dropdown
-        isDropdownActive={isDropdownActive}
-        setIsDropdownActive={setIsDropdownActive}
-        handleLogout={handleLogOut}
-      >
-        <StyledUserWrapper>
-          {!isError && (
-            <div
-              style={{ display: "flex", alignItems: "center", gap: "1em" }}
-              onClick={() => setIsDropdownActive(!isDropdownActive)}
-            >
-              <img src={avatar_url} style={{ width: "50px" }} />
-              <StyledParagraph>{username}</StyledParagraph>
-            </div>
-          )}
-        </StyledUserWrapper>
-      </Dropdown>
-      <Button
-        onClick={handleLogOut}
-        normal={theme.colors.main}
-        light={theme.colors.lightMain}
-      >
-        Log Out
-      </Button>
-    </StyledHeader>
+    <>
+      <StyledHeader>
+        <Dropdown
+          isDropdownActive={isDropdownActive}
+          setIsDropdownActive={setIsDropdownActive}
+          handleLogout={handleLogOut}
+        >
+          <StyledUserWrapper>
+            {!isError && (
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "1em" }}
+                onClick={() => setIsDropdownActive(!isDropdownActive)}
+              >
+                <img src={avatar} style={{ width: "50px" }} />
+                <StyledParagraph>{username}</StyledParagraph>
+              </div>
+            )}
+          </StyledUserWrapper>
+        </Dropdown>
+        <Button
+          onClick={handleLogOut}
+          normal={theme.colors.main}
+          light={theme.colors.lightMain}
+        >
+          Log Out
+        </Button>
+      </StyledHeader>
+      {children}
+    </>
   );
 };
 
