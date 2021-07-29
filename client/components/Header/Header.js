@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../PrimaryButton/PrimaryButton";
 import styled from "styled-components";
 import theme from "../../styles/theme";
+import Dropdown from "../Dropdown/Dropdown";
 
 const Header = ({ username, avatar_url, history, isError }) => {
+  const [isDropdownActive, setIsDropdownActive] = useState(false);
   const handleLogOut = () => {
+    console.log("HI");
     fetch("/api/user/logout")
       .then(() => {
         history.push("/");
@@ -13,14 +16,30 @@ const Header = ({ username, avatar_url, history, isError }) => {
         alert("Failure to log out!");
       });
   };
+
+  const handleGoToReports = () => {
+    history.push("/reports");
+  };
+
   return (
     <StyledHeader>
-      {!isError && (
-        <div style={{ display: "flex", alignItems: "center", gap: "1em" }}>
-          <img src={avatar_url} style={{ width: "50px" }} />
-          <StyledParagraph>{username}</StyledParagraph>
-        </div>
-      )}
+      <Dropdown
+        isDropdownActive={isDropdownActive}
+        setIsDropdownActive={setIsDropdownActive}
+        handleLogout={handleLogOut}
+      >
+        <StyledUserWrapper>
+          {!isError && (
+            <div
+              style={{ display: "flex", alignItems: "center", gap: "1em" }}
+              onClick={() => setIsDropdownActive(!isDropdownActive)}
+            >
+              <img src={avatar_url} style={{ width: "50px" }} />
+              <StyledParagraph>{username}</StyledParagraph>
+            </div>
+          )}
+        </StyledUserWrapper>
+      </Dropdown>
       <Button
         onClick={handleLogOut}
         normal={theme.colors.main}
@@ -31,6 +50,12 @@ const Header = ({ username, avatar_url, history, isError }) => {
     </StyledHeader>
   );
 };
+
+const StyledUserWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`;
 
 const StyledParagraph = styled.p`
   font-family: "Lato";

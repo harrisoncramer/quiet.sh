@@ -10,7 +10,6 @@ import SearchBar from "../components/Searchbar/Searchbar";
 
 const Main = () => {
   const [username, setUsername] = useState("");
-  // const [trackingRepos, setTrackingRepos] = useState([]);
   const [repos, setRepos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -37,6 +36,10 @@ const Main = () => {
       });
   }, []);
 
+  const handleCheckSecrets = ({ repo, secrets }) => {
+    console.log(secrets, repo);
+  };
+
   return !isLoading ? (
     <div>
       <Header
@@ -59,7 +62,13 @@ const Main = () => {
                 repo.description?.includes(filter)
             )
             .map((repo) => {
-              return <Card key={repo.id} repo={repo} />;
+              return (
+                <Card
+                  key={repo.id}
+                  repo={repo}
+                  handleCheckSecrets={handleCheckSecrets}
+                />
+              );
             })}
           {isError && (
             <h3>

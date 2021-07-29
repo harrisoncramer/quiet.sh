@@ -7,9 +7,9 @@ import {
 } from "../PrimaryButton/PrimaryButton";
 import theme from "../../styles/theme";
 import SecretInput from "../SecretInput/SecretInput";
-import Indicator from "../Indicator/Indicator";
+// import Indicator from "../Indicator/Indicator";
 
-const Card = ({ repo }) => {
+const Card = ({ repo, handleCheckSecrets }) => {
   const [popdown, setPopdown] = useState(false);
   const [secrets, setSecrets] = useState([]);
 
@@ -19,7 +19,6 @@ const Card = ({ repo }) => {
 
   return (
     <StyledSection>
-      <Indicator isPassed={true} count={4} />
       <div>
         <h2>{repo.name}</h2>
         {repo.description && <StyledP>{repo.description}</StyledP>}
@@ -32,7 +31,7 @@ const Card = ({ repo }) => {
           light={"black"}
           color={"white"}
         >
-          Visit
+          Github
         </LinkAsButton>
         <Button
           normal={theme.colors.mainBackground}
@@ -40,20 +39,32 @@ const Card = ({ repo }) => {
           color={"white"}
           onClick={handleShowPopDown}
         >
-          {popdown ? "Hide" : "Show"}
+          {popdown ? "Hide" : "Check For Secrets"}
         </Button>
       </StyledButtonWrapper>
-      {popdown && <Popdown secrets={secrets} setSecrets={setSecrets} />}
+      {popdown && (
+        <Popdown
+          secrets={secrets}
+          setSecrets={setSecrets}
+          repo={repo}
+          handleCheckSecrets={handleCheckSecrets}
+        />
+      )}
     </StyledSection>
   );
 };
 
-const Popdown = ({ setSecrets, secrets }) => {
+const Popdown = ({ setSecrets, secrets, handleCheckSecrets, repo }) => {
   const handleAddSecret = (secret) => {
     setSecrets([...secrets, secret]);
   };
 
   const handleClearSecrets = () => {
+    setSecrets([]);
+  };
+
+  const handleSmallButtonClick = () => {
+    handleCheckSecrets({ secrets, repo });
     setSecrets([]);
   };
 
@@ -67,8 +78,9 @@ const Popdown = ({ setSecrets, secrets }) => {
         normal={secrets.length > 0 ? theme.colors.secondary : "grey"}
         light={secrets.length > 0 ? theme.colors.secondaryLight : "grey"}
         disabled={secrets.length === 0}
+        onClick={handleSmallButtonClick}
       >
-        {secrets.length > 0 ? `Check ${secrets.length}!` : "No secrets."}
+        {secrets.length > 0 ? `Check ${secrets.length}!` : "Queue empty."}
       </SmallButton>
     </SecretWrapper>
   );

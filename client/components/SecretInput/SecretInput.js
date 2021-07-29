@@ -32,7 +32,7 @@ const SecretInput = ({ handleAddSecret, handleClearSecrets }) => {
         color={"white"}
         onClick={() => handleSubmitSecret(text)}
       >
-        Add
+        Queue
       </SmallButton>
       <span style={{ padding: ".25em" }} />
       <SmallButton
