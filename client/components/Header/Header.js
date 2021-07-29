@@ -49,8 +49,9 @@ const Header = ({ children }) => {
         </Dropdown>
         <Button
           onClick={handleLogOut}
-          normal={theme.colors.main}
+          normal={theme.colors.secondaryBackground}
           light={theme.colors.lightMain}
+          color={"white"}
         >
           Log Out
         </Button>

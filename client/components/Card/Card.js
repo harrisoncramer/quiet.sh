@@ -20,19 +20,15 @@ const Card = ({ repo, handleCheckSecrets }) => {
   return (
     <StyledSection>
       <div>
-        <h2>{repo.name}</h2>
+        <h3>
+          <a href={repo.html_url} style={{ textDecoration: "underline" }}>
+            {repo.name}
+          </a>
+        </h3>
         {repo.description && <StyledP>{repo.description}</StyledP>}
         <ItalicP>ID: {repo.id}</ItalicP>
       </div>
       <StyledButtonWrapper>
-        <LinkAsButton
-          href={repo.html_url}
-          normal={theme.colors.mainBackground}
-          light={"black"}
-          color={"white"}
-        >
-          Github
-        </LinkAsButton>
         <Button
           normal={theme.colors.mainBackground}
           light={"black"}

@@ -16,10 +16,15 @@ body {
   input {
     font-family: "Open Sans";
   }
+
+  input {
+    font-size: 1em;
+  }
 }
 
 a {
   text-decoration: none;
+  color: cornflowerblue;
 }
 
 .utterances {

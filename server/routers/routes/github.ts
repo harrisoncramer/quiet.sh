@@ -92,12 +92,13 @@ const getRepos: RequestHandler = async (req, res, next) => {
 const searchSecrets: RequestHandler = async (req, res, next) => {
   try {
     // Mutliple secrets search...
-    const { secrets } = req.body;
-    const { ssid, github_username } = req.cookies;
+    const { secrets, repo } = req.body;
+    const { ssid } = req.cookies;
+    const repoName = repo.full_name;
     const responseQueue = [];
     for (const secret of secrets) {
       const response = await axios.get(
-        `https://api.github.com/search/code?q=${secret}+in:file+repo:${github_username}/quiet.sh`,
+        `https://api.github.com/search/code?q=${secret}+in:file+repo:${repoName}`,
         {
           headers: {
             Authorization: `token ${ssid}`,
