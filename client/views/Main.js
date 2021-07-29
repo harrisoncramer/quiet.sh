@@ -15,7 +15,20 @@ const Main = () => {
   const history = useHistory();
 
   const handleCheckSecrets = ({ repo, secrets }) => {
-    console.log(secrets, repo);
+    fetch("/api/reports/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ repo, secrets }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return !isLoading ? (
@@ -58,11 +71,9 @@ const Main = () => {
       </MainWrapper>
     </div>
   ) : (
-    <div>
-      <CenterWrapper>
-        <Loader color={theme.colors.main} />
-      </CenterWrapper>
-    </div>
+    <CenterWrapper>
+      <Loader color={theme.colors.main} />
+    </CenterWrapper>
   );
 };
 
