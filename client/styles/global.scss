@@ -5,6 +5,11 @@ body {
   font-size: 100%;
   color: #eee;
   background-color: #141414;
+
+  #root {
+    padding: 2em;
+    padding-bottom: 5em;
+  }
   h1,
   h2,
   h3,
@@ -25,8 +30,4 @@ body {
 a {
   text-decoration: none;
   color: cornflowerblue;
-}
-
-.utterances {
-  margin-top: -50px;
 }

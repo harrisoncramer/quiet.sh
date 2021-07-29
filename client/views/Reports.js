@@ -88,11 +88,16 @@ const Report = ({
               this report.
             </div>
           ) : (
-            details.map(({ url }, i) => (
-              <StyledExposure key={i}>
-                <a href={url}>{url}</a>
-              </StyledExposure>
-            ))
+            <ul>
+              {details.map(({ url }, i) => {
+                const fileName = url.substring(url.lastIndexOf("/") + 1);
+                return (
+                  <StyledExposure key={i}>
+                    <a href={url}>{fileName}</a>
+                  </StyledExposure>
+                );
+              })}
+            </ul>
           )}
         </ReportDetailsWrapper>
       )}
@@ -100,13 +105,14 @@ const Report = ({
   );
 };
 
-const StyledExposure = styled.div`
-  max-width: 80%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+const StyledExposure = styled.li`
+  color: white;
   a {
-    color: white;
+    display: list-item;
+    max-width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;
 const ReportDetailsWrapper = styled.div`
@@ -163,7 +169,7 @@ const Reports = () => {
 
   return !isLoading ? (
     <ReportWrapper>
-      <h2>Reports</h2>
+      <h1>Reports</h1>
       {isError ? (
         <div>An error occured fetching your reports.</div>
       ) : (

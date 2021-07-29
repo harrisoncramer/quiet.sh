@@ -72,12 +72,11 @@ const StyledParagraph = styled.p`
   font-size: 1.3em;
 `;
 const StyledHeader = styled.header`
+  max-width: 1500px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
-  padding: 1em;
   justify-content: space-between;
-  margin-left: 1em;
-  margin-right: 1em;
   gap: 1em;
 `;
 

@@ -51,6 +51,7 @@ const Card = ({ repo, handleCheckSecrets }) => {
 };
 
 const Popdown = ({ setSecrets, secrets, handleCheckSecrets, repo }) => {
+  const [reportSent, setReportSent] = useState(false);
   const handleAddSecret = (secret) => {
     setSecrets([...secrets, secret]);
   };
@@ -60,10 +61,17 @@ const Popdown = ({ setSecrets, secrets, handleCheckSecrets, repo }) => {
   };
 
   const handleSmallButtonClick = () => {
+    setReportSent(true);
     handleCheckSecrets({ secrets, repo });
     setSecrets([]);
   };
 
+  const submitButtonText =
+    secrets.length > 0
+      ? `Check ${secrets.length}!`
+      : reportSent
+      ? "Report Created."
+      : "Queue empty.";
   return (
     <SecretWrapper>
       <SecretInput
@@ -76,7 +84,7 @@ const Popdown = ({ setSecrets, secrets, handleCheckSecrets, repo }) => {
         disabled={secrets.length === 0}
         onClick={handleSmallButtonClick}
       >
-        {secrets.length > 0 ? `Check ${secrets.length}!` : "Queue empty."}
+        {submitButtonText}
       </SmallButton>
     </SecretWrapper>
   );

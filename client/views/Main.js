@@ -25,11 +25,13 @@ const Main = () => {
 
   return !isLoading ? (
     <MainWrapper>
+      {repos.length === 0 && !isError ? (
+        <h3>You have no repositories in Github.</h3>
+      ) : (
+        <h1>Repositories</h1>
+      )}
       {!isError && <SearchBar response={setFilter} />}
       <div className="grid">
-        {repos.length === 0 && !isError && (
-          <h3>You have no repositories in Github.</h3>
-        )}
         {repos
           .filter(
             (repo) =>
@@ -62,12 +64,12 @@ const Main = () => {
 };
 
 const MainWrapper = styled.main`
+  max-width: 1500px;
   margin: 0 auto;
-  max-width: 960px;
   .grid {
     display: grid;
     gap: 1.3em;
-    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   }
 `;
 
