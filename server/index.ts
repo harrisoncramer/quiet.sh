@@ -3,6 +3,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import user from "./routers/user";
 import reports from "./routers/reports";
+import exposures from "./routers/exposures";
 import globalErrorMiddleware from "./routers/routes/errors";
 import globalDebugMiddleware from "./routers/routes/debug";
 dotenv.config();
@@ -21,6 +22,7 @@ if (process.env.NODE_ENV === "development") app.use(globalDebugMiddleware);
 ////////////
 app.use("/user", user);
 app.use("/reports", reports);
+app.use("/exposures", exposures);
 app.use(globalErrorMiddleware);
 
 ////////////

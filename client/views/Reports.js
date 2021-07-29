@@ -21,6 +21,30 @@ const Report = ({
   user_id,
 }) => {
   const [showDetails, setShowDetails] = useState(false);
+  const [details, setDetails] = useState([]);
+
+  // Make a fetch to the backend to get all the exposures associated with this particular report.
+  const handleShowDetails = (e) => {
+    if (!showDetails) {
+      fetch("/api/exposures", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ user_id, report_id }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setShowDetails(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      setShowDetails(false);
+    }
+  };
 
   return (
     <ReportItem>
@@ -34,7 +58,7 @@ const Report = ({
             color={"white"}
             normal={theme.colors.secondaryBackground}
             light={"black"}
-            onClick={() => setShowDetails(!showDetails)}
+            onClick={handleShowDetails}
           >
             {!showDetails ? "Show Details" : "Hide Details"}
           </Button>
@@ -130,7 +154,6 @@ const Reports = () => {
       ) : (
         reports.length > 0 &&
         reports.map((report, i) => {
-          console.log(report);
           return <Report key={i} {...report} deleteReport={deleteReport} />;
         })
       )}

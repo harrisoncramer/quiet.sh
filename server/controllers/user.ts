@@ -1,6 +1,5 @@
 import db from "../db";
 import { RequestHandler } from "express";
-// import bcrypt from "bcryptjs";
 
 const createCookieFromToken: RequestHandler = (_req, res, next) => {
   const { token } = res.locals;
@@ -88,16 +87,7 @@ const getInfo: RequestHandler = async (req, res, next) => {
   }
 };
 
-// const createSession: RequestHandler = (_req, res, next) => {
-//   const { token } = res.locals;
-//   const salt = bcrypt.genSaltSync(8);
-//   const hashedToken = bcrypt.hashSync(token, salt);
-//   res.locals.hashedToken = hashedToken;
-//   return next();
-// };
-
 export default {
-  // createSession,
   createCookieFromToken,
   saveUser,
   updateToken,

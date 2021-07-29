@@ -21,9 +21,27 @@ const createExposures: RequestHandler = async (req, res, next) => {
       message: "Failed to save exposure to database.",
     });
   }
-  return next();
+};
+
+const getExposures: RequestHandler = async (req, res, next) => {
+  try {
+    const { user_id, report_id } = req.body;
+    console.log("USER ID IS ", user_id);
+    console.log("REPORT ID IS ", report_id);
+    const query = `SELECT exposures.url FROM exposures WHERE exposures.report_id=$1 AND exposures.user_id=$2;`; // JOIN QUERY TO GET ALL OF THE EXPOSURES
+    const params = [report_id, user_id];
+    const { rows } = await db.query(query, params);
+    res.locals.exposures = rows;
+    return next();
+  } catch (err) {
+    return next({
+      status: 500,
+      message: "Failed to get exposures for given user and repository",
+    });
+  }
 };
 
 export default {
   createExposures,
+  getExposures,
 };
