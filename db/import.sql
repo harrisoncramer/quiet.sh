@@ -6,11 +6,12 @@
 /*   token varchar(75) */
 /* ); */
 CREATE TABLE reports (
-  id integer,
+  report_id SERIAL PRIMARY KEY,
+  repo_id integer,
+  user_id integer REFERENCES users(github_id),
   description text,
   full_name varchar(50),
   html_url varchar(100),
-  user_id integer REFERENCES users(github_id),
   is_gitleaks boolean,
   number_of_secrets integer,
   time_of_execution timestamp,

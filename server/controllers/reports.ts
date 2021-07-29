@@ -20,7 +20,7 @@ const createReport: RequestHandler = async (req, res, next) => {
     const { repo, secrets } = req.body;
     const { user_id } = req.cookies;
     const { id, description, full_name, html_url } = repo;
-    const query = `INSERT INTO reports (id, description, full_name, html_url, user_id, is_gitleaks, number_of_secrets, time_of_execution, exposed_count, is_exposed) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
+    const query = `INSERT INTO reports (repo_id, description, full_name, html_url, user_id, is_gitleaks, number_of_secrets, time_of_execution, exposed_count, is_exposed) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
 
     const params = [
       id,

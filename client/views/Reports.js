@@ -19,6 +19,10 @@ const Report = ({
 }) => {
   const [showDetails, setShowDetails] = useState(false);
 
+  const handleDeleteReport = () => {
+    // fetch to /reports/delete
+  };
+
   return (
     <ReportItem>
       <TitleDiv>
@@ -39,6 +43,7 @@ const Report = ({
             color={"white"}
             normal={theme.colors.warning}
             light={theme.colors.warningDark}
+            onClick={handleDeleteReport}
           >
             Delete
           </Button>
@@ -54,7 +59,12 @@ const Report = ({
       </Content>
       {showDetails && (
         <ReportDetailsWrapper>
-          This is where we'd show the exposed file paths.
+          {!is_exposed && (
+            <div>
+              There were no secrets exposed on this check. Feel free to delete
+              this report.
+            </div>
+          )}
         </ReportDetailsWrapper>
       )}
     </ReportItem>
@@ -111,6 +121,7 @@ const SettingsWrapper = styled.div`
 
 const Reports = () => {
   const { isLoading, isError, reports } = useReports();
+  console.log(reports);
   return !isLoading ? (
     <>
       {reports.length > 0 && (
