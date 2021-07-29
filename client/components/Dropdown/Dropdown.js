@@ -78,6 +78,7 @@ const StyledNav = styled.nav`
 
   li {
     border-bottom: 1px solid ${(props) => props.hoverColor};
+    background: black;
     &:hover {
       background: ${(props) => props.hoverColor};
     }
