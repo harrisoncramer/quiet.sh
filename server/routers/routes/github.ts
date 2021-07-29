@@ -96,19 +96,26 @@ const searchSecrets: RequestHandler = async (req, res, next) => {
     console.log("REPO IS", repo);
     console.log("SECRETS ARE ", secrets);
     const { ssid, github_username } = req.cookies;
-    const response = await axios.get(
-      `https://api.github.com/search/code?q=${secrets[0]}+in:file+repo:${github_username}/quiet.sh`,
-      {
-        headers: {
-          Authorization: `token ${ssid}`,
-        },
-      }
-    );
+    const responseQueue = [];
+    for (const secret of secrets) {
+      const response = await axios.get(
+        `https://api.github.com/search/code?q=${secret}+in:file+repo:${github_username}/quiet.sh`,
+        {
+          headers: {
+            Authorization: `token ${ssid}`,
+          },
+        }
+      );
 
-    res.locals.searchResult = await response.data;
+      responseQueue.push(response.data);
+    }
+
+    const results = await Promise.all(responseQueue);
+    res.locals.searchResult = results;
     console.log("SEARCH RESULT IS", res.locals.searchResult);
     return next();
   } catch (err) {
+    console.log(err);
     return next({
       status: 500,
       message: "Failed to search repositories with provided secrets.",
