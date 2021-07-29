@@ -7,7 +7,6 @@ import Dropdown from "../Dropdown/Dropdown";
 const Header = ({ username, avatar_url, history, isError }) => {
   const [isDropdownActive, setIsDropdownActive] = useState(false);
   const handleLogOut = () => {
-    console.log("HI");
     fetch("/api/user/logout")
       .then(() => {
         history.push("/");

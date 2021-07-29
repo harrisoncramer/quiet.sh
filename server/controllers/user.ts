@@ -15,6 +15,16 @@ const createCookieFromToken: RequestHandler = (_req, res, next) => {
     httpOnly: false,
   });
 
+  res.cookie("github_username", res.locals.accountInfo.login, {
+    expires: new Date(Date.now() + 1200000),
+    httpOnly: false,
+  });
+
+  res.cookie("user_id", res.locals.accountInfo.id, {
+    expires: new Date(Date.now() + 1200000),
+    httpOnly: false,
+  });
+
   return next();
 };
 
@@ -60,6 +70,8 @@ const destroyToken: RequestHandler = async (req, _res, next) => {
 const expireCookie: RequestHandler = (_req, res, next) => {
   res.cookie("loggedIn", "", { maxAge: 0 });
   res.cookie("ssid", "", { maxAge: 0 });
+  res.cookie("user_id", "", { maxAge: 0 });
+  res.cookie("github_username", "", { maxAge: 0 });
   return next();
 };
 

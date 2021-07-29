@@ -7,4 +7,8 @@ router.post("/create", reports.createReport, (_req, res) => {
   res.status(200).send(res.locals.report);
 });
 
+router.get("/", reports.getReports, (_req, res) => {
+  res.status(200).send(res.locals.reports);
+});
+
 export default router;
