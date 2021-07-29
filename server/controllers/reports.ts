@@ -6,7 +6,8 @@ import { RequestHandler } from "express";
 const createReport: RequestHandler = async (req, res, next) => {
   try {
     const { repo, secrets } = req.body;
-    const { id, description, full_name, html_url, user_id } = repo;
+    const { id, description, full_name, html_url } = repo;
+    const user_id = repo.owner.id;
     const query = `INSERT INTO reports (id, description, full_name, html_url, user_id, is_gitleaks, number_of_secrets, time_of_execution) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`;
     const params = [
       id,

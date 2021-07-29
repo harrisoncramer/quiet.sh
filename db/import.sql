@@ -6,11 +6,12 @@ CREATE TABLE users (
   token varchar(75)
 );
 CREATE TABLE reports (
-  time_of_execution date,
-  number_of_secrets integer,
+  id integer,
+  description text,
   full_name varchar(50),
   html_url varchar(100),
-  description text,
+  user_id integer REFERENCES users(github_id),
   is_gitleaks boolean,
-  user_id integer REFERENCES users(github_id)
+  number_of_secrets integer,
+  time_of_execution date
 )

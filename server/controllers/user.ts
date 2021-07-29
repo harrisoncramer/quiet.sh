@@ -48,7 +48,6 @@ const updateToken: RequestHandler = async (_req, res, next) => {
 const destroyToken: RequestHandler = async (req, _res, next) => {
   const { ssid } = req.cookies; // Grab the cookie (which is the Github token)
   const query = `UPDATE users SET token = NULL WHERE token=$1`;
-  console.log("SSID IS ", ssid);
   try {
     await db.query(query, [ssid]);
     return next();
